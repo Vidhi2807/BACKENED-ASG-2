@@ -116,6 +116,49 @@ const putNote = async (req, res) => {
   }
 };
 
+//update the selected field by id
+const patchNote = async (req,res) =>{
+  const noteId = req.params.id;
+  try{
+    const updatedNote = await Note.findByIdAndUpdate(
+      noteId,
+      { $set: req.body },
+      { new: true}
+    );
+    res.status(200).json({
+      success: true,
+      message: "Note updated successfully",
+      data: updatedNote
+    }); 
+  }
+  catch(err){
+    res.status(500).json({
+      success: false,
+      message: "Error updating note",
+      data: null
+    }); 
+  }
+}
+
+//delete the note by id
+const deleteNote = async (req,res) =>{
+  const noteId = req.params.id;
+  try{
+    const deletedNote = await Note.findByIdAndDelete(noteId);
+    res.status(200).json({
+  "success": true,
+  "message": "Note deleted successfully",
+  "data": null
+})
+  }
+  catch(err){
+    res.status(500).json({
+      success: false,
+      message: "Error deleting note",
+      data: null
+    });
+  }
+}
 
 
 
@@ -124,7 +167,9 @@ module.exports = {
     createMultiple,
     getAllNote,
     getNoteById,
-    putNote
+    putNote,
+    patchNote,
+    deleteNote,
 };
 
     
