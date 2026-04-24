@@ -92,10 +92,39 @@ const getNoteById = async (req, res) => {
   }
 };
 
+//put the changes
+const putNote = async (req, res) => {
+  const noteId = req.params.id;
+
+  try {
+    const updatedNote = await Note.findByIdAndUpdate(
+      noteId,
+      req.body,
+      { new: true}
+    );
+    res.status(200).json({
+      success: true,
+      message: "Note updated successfully",
+      data: updatedNote
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Error updating note",
+      data: null
+    });
+  }
+};
+
+
+
 
 module.exports = {
     createNote,
     createMultiple,
     getAllNote,
-    getNoteById
+    getNoteById,
+    putNote
 };
+
+    
